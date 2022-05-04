@@ -35,7 +35,7 @@ int	ft_initialize(t_connect *c, int argc, char **argv)
 	c->i.dead_body = 0;
 	c->i.all_wellfed = 0;
 	c->i.num_meals = -1;
-	c->i.what_time_is_it = time_manager();
+	c->i.time_start = time_manager();
 	if (argc == 6)
 		c->i.num_meals = ft_atoi_v2(argv[5]);
 	if (c->i.num_philos < 2 || c->i.num_philos > 200 || c->i.time_death <= 0

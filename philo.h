@@ -15,7 +15,7 @@ typedef struct s_philo
 	int				count_meals;
 	long long int	time_last_eat;
 	pthread_t		thread;
-	//t_info			*ptr;
+	t_info			*in;
 }	t_philo;
 
 typedef struct s_info
@@ -27,7 +27,7 @@ typedef struct s_info
 	int				time_sleep;
 	int				time_death;
 	int				dead_body;
-	long long int	what_time_is_it;
+	long long int	time_start;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	meal_check;
 	pthread_mutex_t	write;
