@@ -2,26 +2,29 @@
 
 void	ft_action_print(t_info *i, int id, char *str)
 {
-	pthread_mutex_lock(&i->write);
-	printf("[%lld] ", time_manager() - i->time_start);
-	printf("%d %s\n", id + 1, str);
-	pthread_mutex_unlock(&i->write);
+	pthread_mutex_lock(&(i->write));
+	if (!i->dead_body)
+	{
+		printf("[%lld] ", time_manager() - i->time_start);
+		printf("%d %s\n", id + 1, str);
+	}
+	pthread_mutex_unlock(&(i->write));
 }
 
-void	ft_usleep(long long int time)
+void	ft_usleep(long long int	time)
 {
 	long long int	start;
 
 	start = time_manager();
 	while ((time_manager() - start) < time)
-		usleep(10);
+		usleep(50);
 }
 
 long long int	time_manager(void)
 {
 	struct timeval	t;
 
-	gettimeofday(&t, NULL); 
+	gettimeofday(&t, NULL);
 	return ((t.tv_sec * 1000) + (t.tv_usec / 1000));
 }
 

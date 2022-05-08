@@ -1,14 +1,14 @@
 NAME = philo
 
 RM = RM -f
-CC = gcc
+CC = cc
 
-SRCS = philo.c initialize.c utils.c
+SRCS = philo.c initialize.c utils.c activity.c 
 HEADER = philo.h
 
 OBJS = $(SRCS:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -fsanitize=thread -Wall -Wextra -Werror
 
 all: $(NAME)
 

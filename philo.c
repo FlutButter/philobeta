@@ -4,8 +4,8 @@ void	all_free(t_connect *c)
 {
 	if (c->p != NULL)
 		free(c->p);
-	/*if (c->i.forks != NULL)
-		free(c->i.forks);*/
+	if (c->i.forks != NULL)
+		free(c->i.forks);
 }
 
 static int	ft_error_print(t_connect *c, int error)
@@ -20,8 +20,24 @@ static int	ft_error_print(t_connect *c, int error)
 		printf("Ошибка инициализации mutex.\n");
 	else if (error == 4)
 		printf("Не удалось создать поток.\n");
-	all_free(c);
+	if (error >= 2)
+		all_free(c);
 	return (1);
+}
+
+void	ft_shut_down(t_connect *c)
+{
+	int	j;
+
+	j = -1;
+	while(++j < c->i.num_philos)
+		pthread_join(c->p[j].thread, NULL);
+	j = -1;
+	while(++j < c->i.num_philos)
+		pthread_mutex_destroy(&c->i.forks[j]);
+	pthread_mutex_destroy(&c->i.meal_check);
+	pthread_mutex_destroy(&c->i.write);
+	all_free(c);
 }
 
 int	main(int argc, char **argv)
