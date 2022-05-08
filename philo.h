@@ -20,6 +20,7 @@ typedef struct s_info
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	meal_check;
 	pthread_mutex_t	write;
+	pthread_mutex_t	death;
 
 }	t_info;
 

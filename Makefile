@@ -8,7 +8,7 @@ HEADER = philo.h
 
 OBJS = $(SRCS:.c=.o)
 
-CFLAGS = -fsanitize=thread -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 

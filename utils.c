@@ -3,11 +3,13 @@
 void	ft_action_print(t_info *i, int id, char *str)
 {
 	pthread_mutex_lock(&(i->write));
+	pthread_mutex_lock(&(i->death));
 	if (!i->dead_body)
 	{
 		printf("[%lld] ", time_manager() - i->time_start);
 		printf("%d %s\n", id + 1, str);
 	}
+	pthread_mutex_unlock(&(i->death));
 	pthread_mutex_unlock(&(i->write));
 }
 

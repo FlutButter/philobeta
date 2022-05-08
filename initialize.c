@@ -9,6 +9,8 @@ static int	init_mutex_philo(t_connect *c)
 		return (1);
 	if (pthread_mutex_init(&(c->i.meal_check), NULL))
 		return (1);
+	if (pthread_mutex_init(&(c->i.death), NULL))
+		return (1);
 	while (++j < c->i.num_philos)
 	{
 		c->p[j].id = j;

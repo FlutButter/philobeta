@@ -32,11 +32,14 @@ void	ft_shut_down(t_connect *c)
 	j = -1;
 	while(++j < c->i.num_philos)
 		pthread_join(c->p[j].thread, NULL);
+	if (c->i.all_wellfed == 1)
+		printf("Все плотненько покушали\n");
 	j = -1;
 	while(++j < c->i.num_philos)
 		pthread_mutex_destroy(&c->i.forks[j]);
 	pthread_mutex_destroy(&c->i.meal_check);
 	pthread_mutex_destroy(&c->i.write);
+	pthread_mutex_destroy(&c->i.death);
 	all_free(c);
 }
 
