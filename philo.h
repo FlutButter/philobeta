@@ -43,10 +43,11 @@ typedef struct s_connect
 
 int				ft_atoi_v2(char *str);
 int				create_threads(t_connect *c);
+int				check_and_eat(t_philo *p, t_info *i);
 int				ft_initialize(t_connect *c, int argc, char **argv);
 void			all_free(t_connect *c);
 void			ft_usleep(long long int	time);
-int				ft_meals_check(t_connect *c);
+int				dead_or_wellfed(t_connect *c);
 void			*philo_thread(void *ptr);
 void			pulse_monitor(t_connect *c);
 void			ft_igestion(t_philo *p, t_info *i);

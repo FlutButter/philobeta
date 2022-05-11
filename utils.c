@@ -30,6 +30,26 @@ long long int	time_manager(void)
 	return ((t.tv_sec * 1000) + (t.tv_usec / 1000));
 }
 
+int	check_and_eat(t_philo *p, t_info *i)
+{
+	pthread_mutex_lock(&(i->death));
+	if (i->dead_body)
+	{
+		pthread_mutex_unlock(&(i->death));
+		return (1);
+	}
+	pthread_mutex_unlock(&(i->death));
+	ft_igestion(p, i);
+	pthread_mutex_lock(&(i->meal_check));
+	if (i->all_wellfed)
+	{
+		pthread_mutex_unlock(&(i->meal_check));
+		return (1);
+	}
+	pthread_mutex_unlock(&(i->meal_check));
+	return (0);
+}
+
 int	ft_atoi_v2(char *str)
 {
 	int				i;

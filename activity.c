@@ -29,33 +29,27 @@ void	*philo_thread(void *ptr)
 		usleep(10000);
 	while (1)
 	{
-		pthread_mutex_lock(&(i->death));
-		if (i->dead_body)
-		{
-			pthread_mutex_unlock(&(i->death));
+		if (check_and_eat(p, i))
 			break ;
-		}
-		pthread_mutex_unlock(&(i->death));
-		ft_igestion(p, i);
-		pthread_mutex_lock(&(i->meal_check));
-		if (i->all_wellfed)
-		{
-			pthread_mutex_unlock(&(i->meal_check));
-			break ;
-		}
-		pthread_mutex_unlock(&(i->meal_check));
-		ft_action_print(i, p->id, "спит");
+		ft_action_print(i, p->id, "спит"); //25
 		ft_usleep(i->time_sleep);
 		ft_action_print(i, p->id, "думает");
 	}
 	return (NULL);
 }
 
-int	ft_meals_check(t_connect *c)
+int	dead_or_wellfed(t_connect *c)
 {
 	int	j;
 
 	j = 0;
+	pthread_mutex_lock(&(c->i.death));
+	if (c->i.dead_body)
+	{
+		pthread_mutex_unlock(&(c->i.death));
+		return (1);
+	}
+	pthread_mutex_unlock(&(c->i.death));
 	pthread_mutex_lock(&(c->i.meal_check));
 	while (c->i.num_meals != -1 && j < c->i.num_philos
 		&& c->p[j].count_meals >= c->i.num_meals)
@@ -91,14 +85,7 @@ void	pulse_monitor(t_connect *c)
 			}
 			pthread_mutex_unlock(&(c->i.meal_check));
 		}
-		pthread_mutex_lock(&(c->i.death));
-		if (c->i.dead_body)
-		{
-			pthread_mutex_unlock(&(c->i.death));
-			break ;
-		}
-		pthread_mutex_unlock(&(c->i.death));
-		if (ft_meals_check(c))
+		if (dead_or_wellfed(c))
 			break ;
 	}
 }
