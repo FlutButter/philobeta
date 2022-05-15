@@ -13,13 +13,18 @@ void	ft_action_print(t_info *i, int id, char *str)
 	pthread_mutex_unlock(&(i->write));
 }
 
-void	ft_usleep(long long int	time)
+void	ft_usleep(t_info *i, long long int time)
 {
 	long long int	start;
 
 	start = time_manager();
-	while ((time_manager() - start) < time)
-		usleep(50);
+	pthread_mutex_lock(&(i->death));
+	if (!(i->dead_body)
+	{
+		while ((time_manager() - start) < time)
+			usleep(50);
+	}
+	pthread_mutex_unlock(&(i->death));
 }
 
 long long int	time_manager(void)

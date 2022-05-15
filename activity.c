@@ -10,7 +10,7 @@ void	ft_igestion(t_philo *p, t_info *i)
 	ft_action_print(i, p->id, "ест");
 	p->time_last_eat = time_manager();
 	pthread_mutex_unlock(&(i->meal_check));
-	ft_usleep(i->time_eat);
+	ft_usleep(i, i->time_eat);
 	pthread_mutex_lock(&(i->meal_check));
 	p->count_meals++;
 	pthread_mutex_unlock(&(i->meal_check));
@@ -31,8 +31,8 @@ void	*philo_thread(void *ptr)
 	{
 		if (check_and_eat(p, i))
 			break ;
-		ft_action_print(i, p->id, "спит"); //25
-		ft_usleep(i->time_sleep);
+		ft_action_print(i, p->id, "спит");
+		ft_usleep(i, i->time_sleep);
 		ft_action_print(i, p->id, "думает");
 	}
 	return (NULL);
@@ -92,16 +92,24 @@ void	pulse_monitor(t_connect *c)
 
 int	create_threads(t_connect *c)
 {
-	int	i;
+	int	j;
 
-	i = -1;
+	j = -1;
 	c->i.time_start = time_manager();
-	while (++i < c->i.num_philos)
+	while (++j < c->i.num_philos)
 	{
-		c->p[i].in = &c->i;
-		c->p[i].time_last_eat = time_manager();
-		if (pthread_create(&(c->p[i].thread), NULL, philo_thread, &c->p[i]) != 0)
-			return (1);
+		c->p[j].in = &c->i;
+		c->p[j].time_last_eat = time_manager();
+		if (c->i.num_philos != 1)
+		{
+			if (pthread_create(&(c->p[j].thread), NULL, philo_thread, &c->p[j]) != 0)
+				return (1);
+		}
+		else
+		{
+			if (pthread_create(&(c->p[j].thread), NULL, one_philo, &c->p[j]) != 0)
+				return (1);
+		}
 	}
 	pulse_monitor(c);
 	ft_shut_down(c);

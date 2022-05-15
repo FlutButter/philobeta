@@ -33,7 +33,7 @@ void	ft_shut_down(t_connect *c)
 	while(++j < c->i.num_philos)
 		pthread_join(c->p[j].thread, NULL);
 	if (c->i.all_wellfed == 1)
-		printf("Все плотненько покушали\n");
+		printf("Все поели %d раз/а\n", c->i.all_wellfed );
 	j = -1;
 	while(++j < c->i.num_philos)
 		pthread_mutex_destroy(&c->i.forks[j]);
@@ -41,6 +41,28 @@ void	ft_shut_down(t_connect *c)
 	pthread_mutex_destroy(&c->i.write);
 	pthread_mutex_destroy(&c->i.death);
 	all_free(c);
+}
+
+void	*one_philo(void *ptr) // ну типа
+{
+	t_philo	*p;
+	t_info	*i;
+
+	p = (t_philo *)ptr;
+	i = p->in;
+	pthread_mutex_lock(&(i->forks[p->l_fork]));
+	ft_action_print(i, p->id, "взял вилку");
+	while (1)	
+	{
+		pthread_mutex_lock(&(i->death));
+		if (i->dead_body)
+		{
+			pthread_mutex_unlock(&(i->death));
+			pthread_mutex_unlock(&(i->forks[p->l_fork]));
+			break ;
+		}
+		pthread_mutex_unlock(&(i->death));
+	}
 }
 
 int	main(int argc, char **argv)
