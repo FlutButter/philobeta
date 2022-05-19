@@ -16,7 +16,6 @@ static int	init_sem_philo(t_connect *c)
 	while (++j < c->i.num_philos)
 	{
 		c->p[j].id = j;
-		c->p[j].l_fork = j;
 		c->p[j].time_last_eat = 0;
 		c->p[j].count_meals = 0;
 	}

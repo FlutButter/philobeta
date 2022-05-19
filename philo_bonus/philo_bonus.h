@@ -23,17 +23,15 @@ typedef struct s_info
 	sem_t	*forks;
 	sem_t	*meal_check;
 	sem_t	*write;
-	sem_t	*death;
 }	t_info;
 
 typedef struct s_philo
 {
 	int				id;
 	pid_t			id_process;
-	int				r_fork;
-	int				l_fork;
 	int				count_meals;
 	long long int	time_last_eat;
+	pthread_t		death;
 	t_info			*in;
 }	t_philo;
 
